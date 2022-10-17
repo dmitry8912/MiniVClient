@@ -25,8 +25,7 @@ namespace MiniVClient.AppDomain.Implementations
       Thread.Sleep(5000);
       var forwardedPort = SshTunnel.Create(host, details);
       logger.Info("SSH tunnel estabilished, forwarded port {0}", forwardedPort);
-      var token = new CancellationTokenSource();
-      var task = Task.Run(() => { WebSocketWrapper.HandleEvents(wsClient); }, token.Token);
+      Task.Run(() => { WebSocketWrapper.HandleEvents(wsClient); });
       logger.Info("Starting remote desktop connection");
       var rdcProcess = new Process();
       rdcProcess.StartInfo = new ProcessStartInfo("mstsc.exe", string.Format("/v:localhost:{0}", forwardedPort)); ;
